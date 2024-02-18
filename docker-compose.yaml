@@ -1,0 +1,28 @@
+services:
+  nginx:
+    build:
+      context: ./srcs/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "443:443"
+    volumes:
+      - wp_volume:/var/www/html
+    depends_on:
+      - wordpress
+  wordpress:
+    build:
+      context: ./srcs/wordpress
+      dockerfile: Dockerfile
+    volumes:
+      - wp_volume:/var/www/html
+    depends_on:
+      - mariadb
+  mariadb:
+    build:
+      context: ./srcs/mariadb
+      dockerfile: Dockerfile
+    volumes:
+      - db_volume:/var/lib/mysql
+volumes:
+  wp_volume:
+  db_volume:
